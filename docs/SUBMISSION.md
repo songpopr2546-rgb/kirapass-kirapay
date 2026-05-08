@@ -17,10 +17,10 @@ Project Description:
 KiraPass is a working pass marketplace for Solana creators, workshops, and IRL event teams. Buyers purchase access passes through KIRAPAY, paying from their preferred supported chain or token, while the merchant settles in USDC on Solana. The prototype includes server-side KIRAPAY payment link generation, a buyer checkout flow, receipt pages, merchant reconciliation, transaction polling, and a webhook endpoint for payment status updates.
 
 Project Github Link:
-TODO: add public GitHub repository URL.
+https://github.com/songpopr2546-rgb/kirapass-kirapay
 
 Project Website:
-TODO: add deployed URL.
+https://kirapass-kirapay.vercel.app
 
 Did you submit this project to the official Frontier Hackathon on Colosseum? (Yes/No)
 TODO: Yes or No.
@@ -29,10 +29,10 @@ Link to your project's Colosseum profile:
 TODO: add Colosseum project URL.
 
 Link to your Loom / Demo Video:
-TODO: add video URL.
+TODO: add video URL. Suggested fallback if you cannot record Loom in time: https://kirapass-kirapay.vercel.app
 
 Presentation Link:
-TODO: add deck or write-up URL if used.
+https://github.com/songpopr2546-rgb/kirapass-kirapay/blob/main/docs/WRITEUP.md
 
 Project Twitter Profile Link:
 TODO: optional.
