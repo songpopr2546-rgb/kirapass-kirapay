@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KiraPass - KIRAPAY Solana Checkout</title>
+    <meta
+      name="description"
+      content="A KIRAPAY-powered pass marketplace that accepts cross-chain crypto payments and settles to Solana."
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="KiraPass home">
+          <img
+            class="brand-mark"
+            src="https://res.cloudinary.com/dgvnuwspr/image/upload/v1774881995/earn-sponsor/dlci8owybwakqwbtswv2.png"
+            alt="KIRAPAY"
+          />
+          <span class="brand-text">
+            <strong>KiraPass</strong>
+            <span>Solana commerce passes</span>
+          </span>
+        </a>
+
+        <nav class="tabs" aria-label="Primary">
+          <button class="tab is-active" data-tab="checkout" type="button">
+            Checkout
+          </button>
+          <button class="tab" data-tab="merchant" type="button">
+            Merchant
+          </button>
+          <button class="tab" data-tab="ops" type="button">
+            Ops
+          </button>
+        </nav>
+      </header>
+
+      <main>
+        <section class="hero-band">
+          <div class="hero-copy">
+            <div class="eyebrow">
+              <img
+                src="https://res.cloudinary.com/dgvnuwspr/image/upload/v1758300382/assets/hackathon/frontier/logo.png"
+                alt="Frontier Hackathon"
+              />
+              <span>Frontier Hackathon track</span>
+            </div>
+            <h1>Sell Solana access passes to buyers on any chain.</h1>
+            <p>
+              KiraPass lets creators and event teams collect in USDC on Solana
+              while customers pay with their preferred token through KIRAPAY.
+            </p>
+          </div>
+
+          <div class="mode-strip" aria-live="polite">
+            <div>
+              <span class="label">KIRAPAY</span>
+              <strong id="modeLabel">Loading</strong>
+            </div>
+            <div>
+              <span class="label">Settlement</span>
+              <strong id="settlementLabel">Solana USDC</strong>
+            </div>
+            <div>
+              <span class="label">Deadline</span>
+              <strong>May 12, 2026</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel is-active" id="panel-checkout" data-panel="checkout">
+          <div class="checkout-grid">
+            <section class="catalog">
+              <div class="section-head">
+                <div>
+                  <p class="overline">Catalog</p>
+                  <h2>Passes ready for global checkout</h2>
+                </div>
+                <span class="mini-badge">Any token in, Solana out</span>
+              </div>
+              <div class="pass-grid" id="passGrid"></div>
+            </section>
+
+            <aside class="checkout-tool" aria-labelledby="checkoutTitle">
+              <div class="section-head compact">
+                <div>
+                  <p class="overline">Checkout</p>
+                  <h2 id="checkoutTitle">Create KIRAPAY payment link</h2>
+                </div>
+              </div>
+
+              <form id="checkoutForm" class="form-stack">
+                <label>
+                  <span>Selected pass</span>
+                  <select id="passSelect" name="passId"></select>
+                </label>
+                <label>
+                  <span>Name</span>
+                  <input
+                    name="buyerName"
+                    type="text"
+                    autocomplete="name"
+                    value="Ari Frontier"
+                    required
+                  />
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input
+                    name="buyerEmail"
+                    type="email"
+                    autocomplete="email"
+                    value="ari@example.com"
+                    required
+                  />
+                </label>
+                <label>
+                  <span>Wallet or handle</span>
+                  <input
+                    name="buyerHandle"
+                    type="text"
+                    value="@ari_onchain"
+                  />
+                </label>
+                <label>
+                  <span>Quantity</span>
+                  <input
+                    id="quantityInput"
+                    name="quantity"
+                    type="number"
+                    min="1"
+                    max="10"
+                    value="1"
+                    required
+                  />
+                </label>
+
+                <div class="total-row">
+                  <span>Total</span>
+                  <strong id="totalLabel">$12.00 USDC</strong>
+                </div>
+
+                <button class="primary-action" type="submit" id="checkoutButton">
+                  Generate checkout
+                </button>
+              </form>
+
+              <div class="result-box" id="checkoutResult" hidden></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-merchant" data-panel="merchant">
+          <div class="section-head">
+            <div>
+              <p class="overline">Merchant console</p>
+              <h2>KIRAPAY links, orders, and settlements</h2>
+            </div>
+            <button class="secondary-action" id="refreshDashboard" type="button">
+              Refresh
+            </button>
+          </div>
+
+          <div class="metrics-row">
+            <div class="metric">
+              <span>Orders</span>
+              <strong id="ordersMetric">0</strong>
+            </div>
+            <div class="metric">
+              <span>Settled volume</span>
+              <strong id="volumeMetric">$0</strong>
+            </div>
+            <div class="metric">
+              <span>KIRAPAY links</span>
+              <strong id="linksMetric">0</strong>
+            </div>
+            <div class="metric">
+              <span>Transactions</span>
+              <strong id="txMetric">0</strong>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Pass</th>
+                  <th>Buyer</th>
+                  <th>Status</th>
+                  <th>Amount</th>
+                  <th>Payment</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTable"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-ops" data-panel="ops">
+          <div class="ops-grid">
+            <section>
+              <div class="section-head">
+                <div>
+                  <p class="overline">Architecture</p>
+                  <h2>KIRAPAY is the core payment layer</h2>
+                </div>
+              </div>
+              <ol class="flow-list">
+                <li>
+                  <span>1</span>
+                  <div>
+                    <strong>Buyer chooses a pass</strong>
+                    <p>Order metadata stays in KiraPass.</p>
+                  </div>
+                </li>
+                <li>
+                  <span>2</span>
+                  <div>
+                    <strong>Server creates a KIRAPAY link</strong>
+                    <p>The API key never reaches the browser.</p>
+                  </div>
+                </li>
+                <li>
+                  <span>3</span>
+                  <div>
+                    <strong>Customer pays cross-chain</strong>
+                    <p>KIRAPAY handles wallet, token, routing, and checkout.</p>
+                  </div>
+                </li>
+                <li>
+                  <span>4</span>
+                  <div>
+                    <strong>Merchant reconciles on Solana</strong>
+                    <p>Webhooks and transaction polling keep orders current.</p>
+                  </div>
+                </li>
+              </ol>
+            </section>
+
+            <section>
+              <div class="section-head">
+                <div>
+                  <p class="overline">Webhook log</p>
+                  <h2>Realtime payment events</h2>
+                </div>
+              </div>
+              <div class="event-list" id="webhookList"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
