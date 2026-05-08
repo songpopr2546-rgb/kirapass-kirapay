@@ -1,0 +1,14 @@
+{
+  "name": "kirapass-solana-checkout",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A KIRAPAY-powered Solana pass marketplace for Frontier Hackathon.",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
